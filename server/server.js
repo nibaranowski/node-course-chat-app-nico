@@ -33,14 +33,15 @@ io.on('connection', (socket) => {
     //     console.log('createEmail', newEmail);
     // });
 
-    socket.on('createMessage', (message) => { //message OUT
+    socket.on('createMessage', (message, callback) => { //message OUT
         console.log('createMessage', message);
+        io.emit('newMessage', generateMessage(message.from, message.text));
+        callback('- This is from the server.');
         // io.emit('newMessage', {
         //     from: message.from,
         //     text: message.text,
         //     createdAt: new Date().getTime()
         // })
-        socket.broadcast.emit('newMessage', generateMessage(message.from, message.text));
     });
 
     socket.on('disconnect', () => {
