@@ -24,19 +24,17 @@ io.on('connection', (socket) => {
     //     createdAt: 123
     // });
 
-    socket.emit('newMessage', { //message IN
-        from: "mike",
-        text: "hey what is going on",
-        createdAt: 123
-    });
-
-
     // socket.on('createEmail', (newEmail) => { //email OUT
     //     console.log('createEmail', newEmail);
     // });
 
-    socket.on('createMessage', (newMessage) => { //message OUT
-        console.log('createMessage', newMessage);
+    socket.on('createMessage', (message) => { //message OUT
+        console.log('createMessage', message);
+        io.emit('newMessage', {
+            from: message.from,
+            text: message.text,
+            createdAt: new Date().getTime()
+        })
     });
 
     socket.on('disconnect', () => {
